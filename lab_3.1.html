@@ -6,7 +6,6 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="Лабораторна робота по JavaScript 1-го семестру курсу 'Internet-технології' поток КІУКІз-21">
     <link href="Lab_3.css" type="text/css" rel="stylesheet">
-	
 	<link rel="icon" type="image/x-icon" href="12345.png">
 	</head>
 	<body>
@@ -31,11 +30,86 @@
 </div>
 <div class="main">
 
- 
+    <button class="table1" id="startButton">Почати генерацію</button>
+    <button class="table1" id="stopButton">Зупинити генерацію</button>
+    <input type="number" id="intervalInput" placeholder="Інтервал (секунди)" />
+	<span id="errorText" class="error"></span>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Ім'я</th>
+                <th>Вік</th>
+				<th>Стaть</th>
+            </tr>
+        </thead>
+        <tbody id="data-table">
+           
+        </tbody>
+    </table>
 
+    <script>
+        let intervalId;
+        let rowCounter = 1;
+        const tableBody = document.getElementById('data-table');
+        const startButton = document.getElementById('startButton');
+        const stopButton = document.getElementById('stopButton');
+        const intervalInput = document.getElementById('intervalInput');
+		
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+		 function getRandomGender() {
+            const genders = ['Чоловік', 'Жінка'];
+            const randomIndex = Math.floor(Math.random() * genders.length);
+            return genders[randomIndex];
+        }
+
+
+        function addRowToTable() {
+            const newRow = document.createElement('tr');
+
+            const idCell = document.createElement('td');
+            idCell.textContent = rowCounter;
+            newRow.appendChild(idCell);
+
+            const nameCell = document.createElement('td');
+            nameCell.textContent = 'Сетудент ' + rowCounter;
+            newRow.appendChild(nameCell);
+
+            const ageCell = document.createElement('td');
+            ageCell.textContent = getRandomInt(14, 60);
+            newRow.appendChild(ageCell);
+			
+			const genderCell = document.createElement('td');
+			genderCell.textContent = getRandomGender();
+			newRow.appendChild(genderCell);
+
+            tableBody.appendChild(newRow);
+
+            rowCounter++;
+        }
+
+        startButton.addEventListener('click', function () {
+            const interval = parseInt(intervalInput.value) * 1000;
+
+            if (isNaN(interval) || interval <= 0) {
+                alert('Будь ласка, введіть коректний інтервал у секундах.');
+			
+                return;
+            }
+		
+
+            intervalId = setInterval(addRowToTable, interval);
+        });
+
+        stopButton.addEventListener('click', function () {
+            clearInterval(intervalId);
+        });
+    </script>
 
    </div>
-
 </div>
 <button class="above1"><a href="#A1">
 
@@ -43,6 +117,7 @@
 </button>
 <div class="footer">
   <h2>Лабораторна робота №3 </h2>
+  <p> Варіант №4</p> 
 </div>
 </body>
 </html>
